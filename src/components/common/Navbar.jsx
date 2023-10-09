@@ -5,7 +5,7 @@ import {NavbarLinks} from "../../data/navbar-links"
 import { useSelector } from 'react-redux'
 import {AiOutlineShoppingCart} from "react-icons/ai"
 import ProfileDropDown from '../core/auth/ProfileDropDown'
-import { apiconnector } from '../../services/apiconnector'
+import { apiConnector } from '../../services/apiconnector'
 import { categories } from '../../services/apis'
 import {IoIosArrowDropdownCircle} from "react-icons/io"
 
@@ -31,7 +31,7 @@ const Navbar = () => {
 
     const fetchSubLinks = async() => {
         try {
-            const result =  await apiconnector("GET", categories.CATEGORIES_API)
+            const result =  await apiConnector("GET", categories.CATEGORIES_API)
             console.log("printing sublinks result",result )
             setSubLinks(result.data.data)
         } catch (error) {
