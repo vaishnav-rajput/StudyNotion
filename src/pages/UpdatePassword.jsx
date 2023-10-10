@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import {AiFillEyeInvisible, AiFillEye} from "react-icons/ai"
+import { Link } from 'react-router-dom'
+import { resetPassword } from '../services/operations/authAPI'
 
 const UpdatePassword = () => {
 
@@ -34,7 +36,7 @@ const UpdatePassword = () => {
     }
 
   return (
-    <div>
+    <div className='text-white flex justify-center items-center'>
         {
             loading ? (
                 <div></div>
@@ -52,8 +54,9 @@ const UpdatePassword = () => {
                             value={password}
                             onChange={handleOnChange}
                             placeholder='password'
+                            className='w-full p-6 bg-richblack-600 text-richblack-5'
                             />
-                            <span onChange={() => setShowPassword((prev) => !prev)}>
+                            <span onClick={() => setShowPassword((prev) => !prev)}>
                                 {
                                     showPassword ? <AiFillEyeInvisible fontSize={24}/> : 
                                     <AiFillEye  fontSize={24}/>
@@ -69,8 +72,10 @@ const UpdatePassword = () => {
                             value={confirmPassword}
                             onChange={handleOnChange}
                             placeholder='confirm password'
+                            className='w-full p-6 bg-richblack-600 text-richblack-5'
+
                             />
-                            <span onChange={() => setShowConfirmPassword((prev) => !prev)}>
+                            <span onClick={() => setShowConfirmPassword((prev) => !prev)}>
                                 {
                                     showConfirmPassword ? <AiFillEyeInvisible fontSize={24}/> : 
                                     <AiFillEye  fontSize={24}/>

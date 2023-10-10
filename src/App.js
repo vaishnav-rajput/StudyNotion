@@ -6,6 +6,8 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import OpenRoute from "./components/core/auth/OpenRoute";
+import UpdatePassword from "./pages/UpdatePassword";
+import VerifyEmail from "./pages/VerifyEmail";
 function App() {
   return (
    <div className="w-screen min-h-screen bg-richblack-900 flex-col font-inter">
@@ -23,6 +25,16 @@ function App() {
       }/>
       <Route path="/login" element={<OpenRoute><Login/></OpenRoute>}/>
       <Route path="/forgot-password" element={<OpenRoute><ForgotPassword/></OpenRoute>}/>
+      <Route path="/update-password/:id" element={
+      <OpenRoute>
+        <UpdatePassword/>
+      </OpenRoute>
+      }/>
+      <Route path="/verify-email" element={
+      <OpenRoute>
+        <VerifyEmail/>
+      </OpenRoute>
+      }/>
     </Routes>
    </div>
   ); 
