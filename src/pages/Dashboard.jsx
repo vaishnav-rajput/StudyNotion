@@ -21,6 +21,7 @@ const Dashboard = () => {
         <div className='h-[calc(100vh-3.5rem)] overflow-auto'>
             <div className='mx-auto w-11/12 max-w-[1000px] py-10'>
                 <Outlet/>
+                {/* TODO: learn more about Outlet and it's usage  */}
             </div>
         </div>
     </div>

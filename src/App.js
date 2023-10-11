@@ -46,6 +46,8 @@ function App() {
         <About/>
       </OpenRoute>
       }/>
+
+
       <Route
         element={
           <PrivateRoute>
@@ -54,6 +56,8 @@ function App() {
         }
       >
         <Route path="dashboard/my-profile" element={<MyProfile />} />
+        {/* <Route path="dashboard/settings" element={<MyProfile />} /> */}
+
         </Route> 
 
       <Route path="*" element={<Error />}/>
