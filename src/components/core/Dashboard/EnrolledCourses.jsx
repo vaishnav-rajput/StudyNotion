@@ -6,6 +6,7 @@ import ProgressBar from '@ramonak/react-progress-bar'
 const EnrolledCourses = () => {
 
     const {token} = useSelector((state) => state.auth)
+    
 
     const [enrolledCourses, setEnrolledCourses] = useState(null)
 
@@ -20,10 +21,11 @@ const EnrolledCourses = () => {
 
     useEffect(() => {
       getEnrolledCourses()
+
     },[])
   return (
-    <div>
-        <div>
+    <div className='text-white'>
+        <div>Enrolled Courses</div>
           {
             !enrolledCourses ? (
               <div>
@@ -69,7 +71,7 @@ const EnrolledCourses = () => {
               </div>
             ) 
           }
-        </div>
+        
     </div>
   )
 }

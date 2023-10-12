@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import IconBtn from '../../common/IconBtn'
@@ -7,6 +7,10 @@ const MyProfile = () => {
 
     const {user} = useSelector((state) => state.profile)
     const navigate = useNavigate()
+    // const {token} = useSelector((state) => state.auth)
+    // useEffect(() => {
+    //     console.log("token in my-profile", token)
+    // },[])
   return (
     <div className='text-white'>
         <h1>My Profile</h1>
