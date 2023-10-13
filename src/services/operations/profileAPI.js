@@ -10,14 +10,14 @@ export async function getUserEnrolledCourses(token){
     let result = []
     try {
         const response = await apiConnector("GET", GET_USER_ENROLLED_COURSES_API,null,{
-            Authorisation:`Bearer ${token}`
+            Authorisation: `Bearer ${token}`
         })
-        console.log(response)
+
         if(!response.data.success){
             throw new Error(response.data.message)
         }
 
-        result = response.data.data
+        result = response.data.data     
     } catch (error) {
         console.log("getUserEnrolledCourses Error............", error)
         toast.error("Couldn't Fetch enrolled courses")
