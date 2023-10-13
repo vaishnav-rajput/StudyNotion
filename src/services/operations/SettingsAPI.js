@@ -42,7 +42,7 @@ export function updateDisplayPicture(token, formData){
 
 export function updateProfile(token, formData){
     return async (dispatch) => {
-        const toatsId = toast.loading("Loading...")
+        const toastId = toast.loading("Loading...")
         try {
             const response = await apiConnector("PUT", UPDATE_PROFILE_API, formData, {
                 Authorisation: `Bearer ${token}`
@@ -51,11 +51,12 @@ export function updateProfile(token, formData){
         if (!response.data.success) {
             throw new Error(response.data.message)
           }    
+
           const userImage = response.data.updatedUserDetails.image
           ? response.data.updatedUserDetails.image
           : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.updatedUserDetails.firstName} ${response.data.updatedUserDetails.lastName}`
           dispatch(
-            setUser({ ...response.data.updatedUserDetails, image: userImage })
+            setUser({ ...response.data.updatedUserDetails, image: userImage} )
           )
           toast.success("Profile Updated Successfully")
         } catch (error) {

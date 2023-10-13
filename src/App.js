@@ -66,11 +66,11 @@ function App() {
         {
           user?.accountType === ACCOUNT_TYPE.STUDENT && (
             <>
-              {/* <Route path="dashboard/cart" element={<Settings />} /> */}
-              <Route path="dashboard/enrolled-courses" element={<EnrolledCourses/>} />
+                          <Route path="dashboard/enrolled-courses" element={<EnrolledCourses/>} />
             </>
-          )
-        }
+
+           ) }
+    
         </Route> 
 
       <Route path="*" element={<Error />}/>

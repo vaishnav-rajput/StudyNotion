@@ -15,7 +15,7 @@ exports.updateProfile = async (req, res) => {
 		profile.dateOfBirth = dateOfBirth;
 		profile.about = about;
 		profile.contactNumber = contactNumber;
-
+	
 		// Save the updated profile
 		await profile.save();
 
