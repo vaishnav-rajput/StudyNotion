@@ -1,7 +1,7 @@
 import {toast} from "react-hot-toast"
 import { updateCompletedLectures } from "../../slices/viewCourseSlice"
 import {apiConnector} from "../apiconnector"
-import {courseEnpoints} from "../apis"
+import {courseEndpoints} from "../apis"
 
 const {
     COURSE_DETAILS_API ,
@@ -20,7 +20,7 @@ const {
     GET_FULL_COURSE_DETAILS_AUTHENTICATED,
     CREATE_RATING_API,
     LECTURE_COMPLETION_API,
-} = courseEnpoints
+} = courseEndpoints
 
 export const getAllCourses = async () => {
     const toastId = toast.loading("loading...")
@@ -73,7 +73,11 @@ export const fetchCourseCategories = async () => {
       if (!response?.data?.success) {
         throw new Error("Could Not Fetch Course Categories")
       }
+      if(response?.data?.success){
+        console.log("fetch category data", response.data.data)
+      }
       result = response?.data?.data
+
     } catch (error) {
       console.log("COURSE_CATEGORY_API API ERROR............", error)
       toast.error(error.message)
@@ -142,7 +146,7 @@ export const createSection = async (data, token) => {
         toast.success("Course Section Created")
         result = response?.data?.updatedCourse
     } catch (error) {
-        console.log(first)
+        console.log(error)
     }
     toast.dismiss(toastId)
     return result
