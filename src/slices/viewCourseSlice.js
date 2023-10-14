@@ -34,4 +34,6 @@ export const {setCourseSectionData,
             setTotalNoOfLectures,
             setCompletedLectures,
             updateCompletedLectures
-        } = viewCourseSlice.reducer
+        } = viewCourseSlice.actions
+
+export default viewCourseSlice.reducer        
