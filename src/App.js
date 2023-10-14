@@ -17,9 +17,10 @@ import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
 import Settings from "./components/core/Dashboard/Settings/index"
 import { ACCOUNT_TYPE } from "./utils/constants";
 import { useSelector } from "react-redux";
+import AddCourse from "./components/core/Dashboard/AddCourse/index";
 
 function App() {
-  const {user} = useSelector((state) => state.auth)
+  const {user} = useSelector((state) => state.profile)
   return (
    <div className="w-screen min-h-screen bg-richblack-900 flex-col font-inter">
     <Navbar/>
@@ -67,6 +68,15 @@ function App() {
           user?.accountType === ACCOUNT_TYPE.STUDENT && (
             <>
                           <Route path="dashboard/enrolled-courses" element={<EnrolledCourses/>} />
+            </>
+
+           ) }
+
+          {
+          user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
+            <>
+                          <Route path="dashboard/add-course" element={<AddCourse/>} />
+
             </>
 
            ) }
