@@ -73,9 +73,7 @@ export const fetchCourseCategories = async () => {
       if (!response?.data?.success) {
         throw new Error("Could Not Fetch Course Categories")
       }
-      if(response?.data?.success){
-        console.log("fetch category data", response.data.data)
-      }
+
       result = response?.data?.data
 
     } catch (error) {

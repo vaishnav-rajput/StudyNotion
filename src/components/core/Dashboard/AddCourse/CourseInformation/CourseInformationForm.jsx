@@ -27,7 +27,6 @@ const CourseInformationForm = () => {
             const categories = await fetchCourseCategories()
             if(categories.length > 0){
                 setCourseCategories(categories)
-            console.log("courseCategories in get categories function", courseCategories)
 
             }
             setLoading(false)
@@ -122,7 +121,7 @@ const CourseInformationForm = () => {
         setLoading(true)
         const result = await addCourseDetails(formData, token)
         if(result){
-            setStep(2)
+            dispatch(setStep(2))
             dispatch(setCourse(result))
         }
         setLoading(false)
@@ -134,7 +133,7 @@ const CourseInformationForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='rounded-md border-richblack-700 bg-richblack-800 p-6 space-y-8'>
         <div>
-            <label className='courseTitle'>Course Title <sup>*</sup></label>
+            <label htmlFor='courseTitle'>Course Title <sup>*</sup></label>
             <input 
                 id='courseTitle'
                 placeholder='enter course title'
