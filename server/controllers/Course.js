@@ -14,7 +14,7 @@ exports.createCourse = async (req, res) => {
 			courseDescription,
 			whatYouWillLearn,
 			price,
-			// tag,
+			tag,
 			category,
 			status,
 			instructions,
@@ -28,7 +28,7 @@ exports.createCourse = async (req, res) => {
 			!courseDescription ||
 			!whatYouWillLearn ||
 			!price ||
-			// !tag ||
+			!tag ||
 			// !thumbnail ||
 			!category
 		) {
@@ -73,7 +73,7 @@ exports.createCourse = async (req, res) => {
 			instructor: instructorDetails._id,
 			whatYouWillLearn: whatYouWillLearn,
 			price,
-			// tag: tag,
+			tag: tag,
 			category: categoryDetails._id,
 			// thumbnail: thumbnailImage.secure_url,
 			status: status,

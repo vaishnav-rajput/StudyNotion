@@ -8,6 +8,7 @@ import IconBtn from "../../../../common/IconBtn"
 import { COURSE_STATUS } from '../../../../../utils/constants'
 import {setStep, setCourse} from "../../../../../slices/courseSlice"
 import {toast} from "react-hot-toast"
+import ChipInput from './ChipInput'
 
 const CourseInformationForm = () => {
      const {register, handleSubmit, 
@@ -50,7 +51,7 @@ const CourseInformationForm = () => {
         if(currentValues.courseTitle !== course.courseName ||
             currentValues.courseShortDesc !== course.courseDescription ||
             currentValues.coursePrice !== course.price ||
-            // currentValues.courseTags.toString() !== course.tag.toString() ||
+            currentValues.courseTags.toString() !== course.tag.toString() ||
             currentValues.courseBenefits !== course.whatYouWillLearn ||
             currentValues.courseCategory._id !== course.category._id ||
             // currentValues.courseImage !== course.thumbnail ||
@@ -79,10 +80,10 @@ const CourseInformationForm = () => {
                 } 
                 
                 // for tags 
-                // if(currentValues.courseTitle !== course.courseName){
-                //     formData.append("courseName", data.courseTitle)
-                // }   
-    
+                if (currentValues.courseTags.toString() !== course.tag.toString()) {
+                    formData.append("tag", JSON.stringify(data.courseTags))
+                  }
+
                 if(currentValues.courseBenefits !== course.whatYouWillLearn){
                     formData.append("whatYouWillLearn", data.courseBenefits)
                 } 
@@ -96,7 +97,7 @@ const CourseInformationForm = () => {
                 const result = await editCourseDetails(formData, token)
                 setLoading(false)
                 if(result){
-                    setStep(2)
+                    dispatch(setStep(2))
                     dispatch(setCourse(result))
                 }
             }
@@ -114,6 +115,8 @@ const CourseInformationForm = () => {
         formData.append("whatYouWillLearn", data.courseBenefits)
         formData.append("instructions", JSON.stringify(data.courseRequirements))
         formData.append("category", data.courseCategory)
+        formData.append("tag", JSON.stringify(data.courseTags))
+
         // formData.append("courseName", data.courseTitle)
         // formData.append("courseName", data.courseTitle)
         formData.append("status", COURSE_STATUS.DRAFT)
@@ -207,16 +210,18 @@ const CourseInformationForm = () => {
             }
         </div>
 
-        {/* create a custom component for handling tags input      */}
-        {/* <ChipInput
+
+
+        {/* Course Tags */}
+        <ChipInput
             label="Tags"
             name="courseTags"
-            placeholder="Enter tags and press enter"
+            placeholder="Enter Tags and press Enter"
             register={register}
             errors={errors}
             setValue={setValue}
             getValues={getValues}
-            /> */}
+        />
 
         {/* create a component for uploading and showing preview of media      */}
         {/* <Upload 

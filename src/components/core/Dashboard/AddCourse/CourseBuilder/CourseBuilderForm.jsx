@@ -5,8 +5,10 @@ import { useState } from 'react'
 import {MdAddCircleOutline} from "react-icons/md"
 import { useDispatch, useSelector } from 'react-redux'
 import {BiRightArrow} from "react-icons/bi"
-import { setEditCourse, setStep } from '../../../../../slices/courseSlice'
+import { setCourse, setEditCourse, setStep } from '../../../../../slices/courseSlice'
 import { createSection, updateSection } from '../../../../../services/operations/courseDetailsAPI'
+import {toast}  from "react-hot-toast"
+import NestedView from './NestedView'
 
 const CourseBuilderForm = () => {
   const {register, handleSubmit, setValue, formState: {errors}} = useForm()
@@ -36,9 +38,14 @@ const CourseBuilderForm = () => {
     }
 
     //update values 
+    if(result){
+      dispatch(setCourse(result))
+      setEditCourse(null )
+      setValue("sectionName", "")
+    }
 
-
-    //loading false
+    //loading false'
+    setLoading(false)
   }
 
   //cancel edit function
@@ -65,12 +72,22 @@ const CourseBuilderForm = () => {
     //if all the required data is present
     dispatch(setStep(3))
   }
+
+  const handleChangeEditSectionName = (sectionId, sectionName) => {
+    if(editSectionName === sectionId) {
+      cancelEdit()
+      return
+    }
+    setEditSectionName(sectionId)
+    setValue("sectionName", sectionName)
+  }
+
   return (
     <div>
       <p>Course Builder</p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label>Section Name <sup>*</sup></label>
+          <label htmlFor='sectionName'>Section Name <sup>*</sup></label>
           <input  
             id='sectionName'
             placeholder='Add section name'
@@ -106,10 +123,10 @@ const CourseBuilderForm = () => {
       </form>
       {
         course.courseContent.length > 0 && (
-          <NestedView/>
+          <NestedView handleChangeEditSectionName ={handleChangeEditSectionName }/>
         )
       }
-      <div className='flex justify-end gap-x-3'>
+      <div className='flex justify-end gap-x-3 mt-10'>
         <button
           onClick={goBack}
           className='rounded-md cursor-pointer flex items-center'

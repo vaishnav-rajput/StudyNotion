@@ -43,11 +43,9 @@ const RenderSteps = () => {
       </div>
       <div>
         {steps.map((item) => (
-          <>
-            <div>
+            <div key={item.id}>
               <p>{item.title}</p>
             </div>
-          </>
         ))}
       </div>
       {step === 1 && <CourseInformationForm/>}
