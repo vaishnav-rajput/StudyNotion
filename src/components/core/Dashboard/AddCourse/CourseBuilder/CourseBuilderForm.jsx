@@ -65,7 +65,7 @@ const CourseBuilderForm = () => {
       return
 
     }
-    if(course.courseContent.some((section) => section.subSection.length === 0)){
+    if(course.courseContent.some((section) => section?.subSection?.length === 0)){
       toast.error("Please add atleast one lecture in each section ")
       return
     }
@@ -122,7 +122,7 @@ const CourseBuilderForm = () => {
         </div>
       </form>
       {
-        course.courseContent.length > 0 && (
+        course?.courseContent?.length > 0 && (
           <NestedView handleChangeEditSectionName ={handleChangeEditSectionName }/>
         )
       }

@@ -7,6 +7,8 @@ import { createSubSection, updateSubSection } from '../../../../../services/oper
 import { setCourse } from '../../../../../slices/courseSlice'
 import {RxCross1} from "react-icons/rx"
 import {toast} from "react-hot-toast"
+import Upload from "../Upload"
+import IconBtn from '../../../../common/IconBtn'
 
 const SubSectionModal = ({
     modalData,
@@ -32,8 +34,8 @@ const SubSectionModal = ({
     useEffect(() => {
         if(view || edit){
             setValue("lectureTitle", modalData.title) 
-            setValue("lectureDescription", modalData.description) 
-            setValue("video", modalData.videoUrl) 
+            setValue("lectureDesc", modalData.description)  //note: babbar has typed lectureDesc instead of lectureDescription
+            setValue("lectureVideo", modalData.videoUrl) 
         }
     }, [])
 
@@ -77,7 +79,7 @@ const SubSectionModal = ({
 
         if(result){
             //TODO: updation 
-            dispatch(setCourse())
+            dispatch(setCourse(result))
         }
 
         setModalData(null)
@@ -127,7 +129,51 @@ const SubSectionModal = ({
                 </button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
+                <Upload 
+                    name="lectureVideo"
+                    label="Lecture video"
+                    register={register}
+                    setValue={setValue}
+                    errors= {errors}
+                    video={true}
+                    viewData={view ? modalData.videoUrl : null}
+                    editData={edit ? modalData.videoUrl : null}
+                />
 
+                {/* Title  */}
+                <div>
+                    <label>Lecture Title</label>
+                    <input 
+                        id='lectureTitle'
+                        placeholder='Enter Lecture Title'
+                        {...register("lectureTitle" , {required: true})}
+                        className='w-full'
+                    />
+                    {errors.lectureTitle && (<span>Lecture title is required</span>)}
+                </div>
+
+                {/* description  */}
+                <div>
+                    <label>Lecture Descirption</label>
+                    <textarea 
+                        id='lectureDesc'
+                        placeholder='Enter lecture description'
+                        {...register("lectureDesc", {required: true})}
+                        className='w-full min-h-[130px]'
+                    />
+                    {
+                        errors.lectureDesc && (<span>Lecture description is required</span>)
+                    }
+                </div>
+                {
+                    !view && (
+                        <div>
+                            <IconBtn 
+                                text={loading? "Loading..." : edit ? "Save Changes" : "Save"}
+                            />
+                        </div>
+                    )
+                }
             </form>
         </div>
     </div>

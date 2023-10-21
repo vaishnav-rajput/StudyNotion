@@ -9,6 +9,7 @@ import {AiOutlinePlus} from "react-icons/ai"
 import SubSectionModal from './SubSectionModal'
 import {deleteSection, deleteSubSection} from "../../../../../services/operations/courseDetailsAPI"
 import {setCourse} from "../../../../../slices/courseSlice"
+import ConfirmationModal from "../../../../common/ConfirmatonModal"
 
 const NestedView = ({handleChangeEditSectionName}) => {
     const {course} = useSelector((state) => state.course)
@@ -25,8 +26,8 @@ const NestedView = ({handleChangeEditSectionName}) => {
         const result = await deleteSection({
             sectionId,
             courseId: course._id,
-            token,
-        })
+            
+        },token)
 
         if(result){
             dispatch(setCourse(result))
@@ -57,7 +58,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
                         </div>
                         <div className='flex items-center gap-x-3'>
                             <button
-                                onClick={handleChangeEditSectionName(section._id, section.sectionName)}
+                                onClick={() => handleChangeEditSectionName(section._id, section.sectionName)}
                                 >
                                 <MdEdit/>
                             </button>
@@ -78,7 +79,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
                     </summary>
                     <div>
                         {
-                            section.subSection.map((data) => (
+                            section?.subSection?.map((data) => (
                                 <div key={data?._id}
                                         onClick={() => setViewSubSection(data)}
                                         className='flex items-center justify-between gap-x-3 border-b-2'
@@ -142,7 +143,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
                     {
                         confirmationModal ? 
                         (
-                            <confirmationModal modalData={confirmationModal} />
+                            <ConfirmationModal modalData={confirmationModal} />
                         ) : (<div></div>)
                     }
             </div>

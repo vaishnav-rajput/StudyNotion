@@ -15,7 +15,6 @@ const Upload = ({
   video = false,
   viewData = null,
   editData = null,
-  getValues
 }) => {
 
   const {course} = useSelector((state) => state.course)
@@ -56,9 +55,6 @@ const Upload = ({
   //value set
   useEffect(() => {
     setValue(name, selectedFile)
-    const currentImgValue = getValues()
-
-    console.log("value set", currentImgValue.courseImage)
   },[selectedFile, setValue])
 
 
