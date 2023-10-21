@@ -9,6 +9,7 @@ import { COURSE_STATUS } from '../../../../../utils/constants'
 import {setStep, setCourse} from "../../../../../slices/courseSlice"
 import {toast} from "react-hot-toast"
 import ChipInput from './ChipInput'
+import Upload from "../Upload"
 
 const CourseInformationForm = () => {
      const {register, handleSubmit, 
@@ -54,7 +55,7 @@ const CourseInformationForm = () => {
             currentValues.courseTags.toString() !== course.tag.toString() ||
             currentValues.courseBenefits !== course.whatYouWillLearn ||
             currentValues.courseCategory._id !== course.category._id ||
-            // currentValues.courseImage !== course.thumbnail ||
+            currentValues.courseImage !== course.thumbnail ||
             currentValues.courseRequirements.toString() !== course.courseInstructions.toString()  )
             return true
         else
@@ -93,6 +94,10 @@ const CourseInformationForm = () => {
                 if(currentValues.courseRequirements.toString() !== course.instructions.toString()){
                     formData.append("instructions", JSON.stringify(data.courseRequirements))
                 } 
+                if (currentValues.courseImage !== course.thumbnail) {
+                    formData.append("thumbnailImage", data.courseImage)
+                }
+
                 setLoading(true)
                 const result = await editCourseDetails(formData, token)
                 setLoading(false)
@@ -116,9 +121,7 @@ const CourseInformationForm = () => {
         formData.append("instructions", JSON.stringify(data.courseRequirements))
         formData.append("category", data.courseCategory)
         formData.append("tag", JSON.stringify(data.courseTags))
-
-        // formData.append("courseName", data.courseTitle)
-        // formData.append("courseName", data.courseTitle)
+        formData.append("thumbnailImage", data.courseImage)
         formData.append("status", COURSE_STATUS.DRAFT)
 
         setLoading(true)
@@ -128,8 +131,6 @@ const CourseInformationForm = () => {
             dispatch(setCourse(result))
         }
         setLoading(false)
-        console.log("PRinting form data", formData)
-        console.log("PRinting result", result)
     }
 
 
@@ -223,14 +224,28 @@ const CourseInformationForm = () => {
             getValues={getValues}
         />
 
-        {/* create a component for uploading and showing preview of media      */}
-        {/* <Upload 
-            name=
-            label=
-            register={}
-            errors= 
-            setValue=
-            />     */}
+
+        {/* Course Thumbnail Image */}
+        {/* <Upload
+            name="courseImage"
+            label="Course Thumbnail"
+            register={register}
+            setValue={setValue}
+            errors={errors}
+            editData={editCourse ? course?.thumbnail : null}
+        />  */}
+
+        <Upload
+            name="courseImage"
+            label="Course Thumbnail"
+            register={register}
+            setValue={setValue}
+            errors = {errors}
+            editData={editCourse ? course?.thumbnail : null}
+            getValues={getValues}
+        />
+
+
         {/* Benefits of the course  */}
         <div>
             <label htmlFor='courseBenefits'>Benefits of the course <sup>*</sup></label>
