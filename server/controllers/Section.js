@@ -1,6 +1,5 @@
 const Section = require("../models/Section");
 const Course = require("../models/Course");
-const SubSection = require("../models/SubSection")
 // CREATE a new section
 exports.createSection = async (req, res) => {
 	try {
@@ -77,37 +76,37 @@ exports.updateSection = async (req, res) => {
 // DELETE a section
 exports.deleteSection = async (req, res) => {
 	try {
-		const {sectionId, courseId} = req.body
-		await Course.findByIdAndUpdate(courseId, {
-			$pull: {
-				courseContent: sectionId
-			}
-		})
+		// const {sectionId, courseId} = req.body
+		// await Course.findByIdAndUpdate(courseId, {
+		// 	$pull: {
+		// 		courseContent: sectionId
+		// 	}
+		// })
 
-		const section  = await Section.findById(sectionId)
+		// const section  = await Section.findById(sectionId)
 
-		if(!section){
-			return res.status(404).json({
-				success: false,
-				message: "section not found"
-			})
-		}
-		//HW -> req.params -> test
+		// if(!section){
+		// 	return res.status(404).json({
+		// 		success: false,
+		// 		message: "section not found"
+		// 	})
+		// }
+		// //HW -> req.params -> test
 
-		//delete sub section
-		await SubSection.deleteMany({_id: {$in: section.subSection}}) //TODO: learn more about $in
+		// //delete sub section
+		// await SubSection.deleteMany({_id: {$in: section.subSection}}) //TODO: learn more about $in
 
-		await Section.findByIdAndDelete(sectionId)
+		// await Section.findByIdAndDelete(sectionId)
 
 
-		//find the updated course
-		const course = await Course.findById(courseId).populate({
-			path: "courseContent",
-			populate: {
-				path: "subSection"
-			}
-		})
-		.exec()
+		// //find the updated course
+		// const course = await Course.findById(courseId).populate({
+		// 	path: "courseContent",
+		// 	populate: {
+		// 		path: "subSection"
+		// 	}
+		// })
+		// .exec()
 
 		//HW -> Course ko bhi update karo
 		res.status(200).json({
