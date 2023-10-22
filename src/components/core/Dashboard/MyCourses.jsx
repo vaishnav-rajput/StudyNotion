@@ -22,8 +22,8 @@ const MyCourses = () => {
     },[])
 
   return (
-    <div>
-        <div>
+    <div className='text-white '>
+        <div className='flex '>
             <h1>My Courses</h1>
             <IconBtn text="Add course"
                     onclick={() => navigate("/dashboard/add-course")}
