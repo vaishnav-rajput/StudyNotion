@@ -10,7 +10,7 @@ export async function getUserEnrolledCourses(token){
     let result = []
     try {
         const response = await apiConnector("GET", GET_USER_ENROLLED_COURSES_API,null,{
-            Authorisation: `Bearer ${token}`
+            Authorization: `Bearer ${token}`
         })
 
         if(!response.data.success){
