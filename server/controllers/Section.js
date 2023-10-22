@@ -55,15 +55,25 @@ exports.createSection = async (req, res) => {
 // UPDATE a section
 exports.updateSection = async (req, res) => {
 	try {
-		const { sectionName, sectionId } = req.body;
+		const { sectionName, sectionId, courseId } = req.body;
 		const section = await Section.findByIdAndUpdate(
 			sectionId,
 			{ sectionName },
 			{ new: true }
 		);
+
+		const course = await Course.findById(courseId)
+		.populate({
+			path: "courseContent",
+			populate: {
+				path: "subSection"
+			}
+		})
+		.exec()
 		res.status(200).json({
 			success: true,
 			message: section,
+			data: course
 		});
 	} catch (error) {
 		console.error("Error updating section:", error);
@@ -109,7 +119,6 @@ exports.deleteSection = async (req, res) => {
 		})
 		.exec()
 
-		//HW -> Course ko bhi update karo
 		res.status(200).json({
 			success: true,
 			message: "Section deleted",

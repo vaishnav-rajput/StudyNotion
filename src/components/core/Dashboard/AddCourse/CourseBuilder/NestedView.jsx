@@ -41,7 +41,9 @@ const NestedView = ({handleChangeEditSectionName}) => {
             subSectionId, sectionId, token
         })
         if(result){
-            dispatch(setCourse(result))
+            const updatedCourseContent = course.courseContent.map((section) => section._id === sectionId ? result : section)
+            const updatedCourse = {...course, courseContent: updatedCourseContent}
+            dispatch(setCourse(updatedCourse))
         }
         setConfirmationModal(null)
     }
@@ -50,7 +52,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
     <div>
         <div className='rounded-lg bg-richblack-700 p-6 px-8'>
             {course?.courseContent?.map((section) => (
-                <details key={section.id} open>
+                <details key={section._id} open>
                     <summary className='flex items-center justify-between gap-x-3 border-b-2'>
                         <div className='flex items-center gap-x-3'>
                             <RxDropdownMenu/>
@@ -89,6 +91,8 @@ const NestedView = ({handleChangeEditSectionName}) => {
                                         <p>{data.title}</p>
                                     </div>
                                     <div
+                                        onClick={(e) => e.stopPropagation()}  //TODO: learn more about stop propagaation
+                                        //Here the stopPropagation method stops the propagation of the setViewSubsSection handler
                                         className='flex items-center gap-x-3'>
                                             <button
                                                 onClick={() => setEditSubSection({...data, sectionId: section._id})}
@@ -101,7 +105,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
                                                     text2:"selected lecture will be deleted",
                                                     btn1Text: "Delete",
                                                     btn2Text: "Cancel",
-                                                    btn1Handler: () => handleDeleteSection(data._id, section._id),
+                                                    btn1Handler: () => handleDeleteSubSection(data._id, section._id),
                                                     btn2Handler: () => setConfirmationModal(null)
                                                 })}
                                                 >
