@@ -48,31 +48,62 @@ exports.categoryPageDetails = async (req, res) => {
             const {categoryId} = req.body;
             //get courses for specified categoryId
             const selectedCategory = await Category.findById(categoryId)
-                                            .populate("courses")
-                                            .exec();
+                .populate({
+                    path: "courses",
+                    match: { status: "Published" },
+                    populate: "ratingAndReviews",
+                })
+                .exec()
             //validation
             if(!selectedCategory) {
                 return res.status(404).json({
                     success:false,
-                    message:'Data Not Found',
+                    message:'category Not Found',
                 });
             }
-            //get coursesfor different categories
-            const differentCategories = await Category.find({
-                                         _id: {$ne: categoryId},
-                                         })
-                                         .populate("courses")
-                                         .exec();
+            // Handle the case when there are no courses
+            if (selectedCategory.courses.length === 0) {
+                console.log("No courses found for the selected category.")
+                return res.status(404).json({
+                success: false,
+                message: "No courses found for the selected category.",
+                })
+            }
+            // Get courses for other categories
+            const categoriesExceptSelected = await Category.find({
+                _id: { $ne: categoryId },
+            })
+            let differentCategory = await Category.findOne(
+                categoriesExceptSelected[getRandomInt(categoriesExceptSelected.length)]
+                  ._id
+            ).populate({
+                path: "courses",
+                match: { status: "Published" },
+              })
+              .exec()
 
             //get top 10 selling courses
-            //HW - write it on your own
-
+            const allCategories = await Category.find()
+            .populate({
+              path: "courses",
+              match: { status: "Published" },
+              populate: {
+                path: "instructor",
+            },
+            })
+            .exec()
+              const allCourses = allCategories.flatMap((category) => category.courses)
+              const mostSellingCourses = allCourses
+              .sort((a, b) => b.sold - a.sold)
+              .slice(0, 10)
+             // console.log("mostSellingCourses COURSE", mostSellingCourses)
             //return response
             return res.status(200).json({
                 success:true,
                 data: {
                     selectedCategory,
-                    differentCategories,
+                    differentCategory,
+                    mostSellingCourses,
                 },
             });
 
