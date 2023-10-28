@@ -1,3 +1,4 @@
+const { Mongoose } = require("mongoose");
 const Category = require("../models/Category");
 function getRandomInt(max) {
     return Math.floor(Math.random() * max)
@@ -49,12 +50,17 @@ exports.categoryPageDetails = async (req, res) => {
     try {
             //get categoryId
             const {categoryId} = req.body;
+
+            // const updatedCategoryId = new Mongoose
             //get courses for specified categoryId
             const selectedCategory = await Category.findById(categoryId)
                 .populate({
                     path: "courses",
                     match: { status: "Published" },
-                    populate: "ratingAndReviews",
+                    populate: {path: "ratingAndReviews"},
+                    populate: {
+                        path: "instructor"
+                    }
                 })
                 .exec()
             //validation

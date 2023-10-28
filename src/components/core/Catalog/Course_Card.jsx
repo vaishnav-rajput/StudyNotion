@@ -30,7 +30,7 @@ const Course_Card = ({course, Height}) => {
                         {course?.courseName}
                     </p>
                     <p>{course?.instructor?.firstName}{" "} {course?.instructor?.lastName}</p>
-                    <div>
+                    <div className='flex gap-x-3'>
                         <span>{avgReviewCount || 0}</span>
                         <RatingStars Review_Count={avgReviewCount} />
                         <span>{course?.ratingAndReviews?.length} ratings</span>
