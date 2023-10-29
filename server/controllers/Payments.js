@@ -4,6 +4,7 @@ const User = require("../models/User");
 const mailSender = require("../utils/mailSender");
 const {courseEnrollmentEmail} = require("../mail/templates/courseEnrollmentEmail");
 const { default: mongoose } = require("mongoose");
+const { paymentSuccessEmail } = require("../mail/templates/paymentSuccessEmail");
 
 //initiate the razorpay order
 exports.capturePayment = async(req, res) => {
@@ -205,6 +206,28 @@ const enrollStudents = async(courses, userId, res) => {
          console.log(error)
          return res.status(500).json({success: false, message: error.message})
        }             
+    }
+}
+
+exports.sendPaymentSuccessEmail = async(req, res) => {
+    const {orderId, paymentId, amount} = req.body
+    const userId = req.user.id
+
+    if(!orderId || !paymentId  || !amount || !userId){
+        return res.status(400).json({success: false, message:"please provide all the fields"})
+    }
+
+    try {
+        //find student
+        const enrolledStudent = await User.findById(userId)
+        await mailSender(
+            enrolledStudent.email,
+            `Payment Received`,
+            paymentSuccessEmail(`${enrolledStudent.firstName}`, amount/100, orderId, paymentId)
+        )
+    } catch (error) {
+        console.log("Error in sending mail", error)
+        return res.status(500).json({success: false, message: "could not send email"} )
     }
 }
 
