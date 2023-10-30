@@ -152,7 +152,8 @@ exports.sendPaymentSuccessEmail = async(req, res) => {
         return res.status(500).json({success: false, message: "could not send email"} )
     }
 }
-
+// key id : rzp_test_Fay5ciuF0ivWmR
+// secret: M6O3V9S1T9hcYVOvobRrETT3
 //capture the payment and initiate the Razorpay order
 // exports.capturePayment = async (req, res) => {
 //     //get courseId and UserID
