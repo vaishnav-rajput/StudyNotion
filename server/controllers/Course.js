@@ -190,11 +190,25 @@ exports.getCourseDetails = async (req, res) => {
                         message:`Could not find the course with ${courseId}`,
                     });
                 }
+
+				//check how the time duration field is filled in the database i.e. how is the length of the video calculated and added to the timeduration field
+				let totalDurationInSeconds = 0
+				courseDetails.courseContent.forEach((content) => {
+				  content.subSection.forEach((subSection) => {
+					console.log("Reached here")
+					const timeDurationInSeconds = parseInt(subSection.timeDuration)
+					totalDurationInSeconds += timeDurationInSeconds
+				  })
+				})
+			
+				const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+
+
                 //return response
                 return res.status(200).json({
                     success:true,
                     message:"Course Details fetched successfully",
-                    data:{courseDetails},
+                    data:{courseDetails, totalDuration},
                 })
 
     }

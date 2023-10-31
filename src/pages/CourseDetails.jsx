@@ -50,9 +50,18 @@ const CourseDetails = () => {
         courseData?.data?.courseDetails?.courseContent?.forEach((sec) => {
             lectures += sec.subSection.length || 0
         })
+        setTotalNoOfLectures(lectures)
     },[courseData])
 
-    //TO UPDATE
+    const [isActive, setIsActive] = useState(Array(0))
+    const handleActive = (id) => {
+        setIsActive(
+            !isActive.includes(id)
+            ? isActive.concat(id) //TODO: learn more about the concat method
+            : isActive.filter((e) => e != id)
+        )
+    }
+
     const handleBuyCourse = () => {
         if(token){
             buyCourse(token, [courseId], user, navigate , dispatch)
@@ -132,8 +141,35 @@ const CourseDetails = () => {
                     course={courseData?.data?.courseDetails}
                     setConfiramtionModal = {setConfirmationModal}
                     handleBuyCourse = {handleBuyCourse}
-
                 />
+            </div>
+        </div>
+
+        <div>
+            <p> What you will learn </p>
+            <div>
+                {whatYouWillLearn}
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <p>Course Content: </p>
+            </div>
+
+            <div className='flex gap-x-3 justify-between'>
+                    <div>
+                        <span>{courseContent.length} section(s)</span>
+                        <span>{totalNoOfLectures} lectures</span>
+                        <span>
+                            {courseData?.data?.totalDuration} total length
+                        </span>   
+                    </div> 
+                    <div>
+                        <button onClick={() => setIsActive([])}>
+                            Collapse all sections
+                        </button>
+                    </div>
             </div>
         </div>
 
