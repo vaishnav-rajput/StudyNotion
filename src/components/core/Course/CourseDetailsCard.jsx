@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import copy from "copy-to-clipboard"
 import {toast} from "react-hot-toast"
+import {ACCOUNT_TYPE} from "../../../utils/constants"
+import { addToCart } from '../../../slices/cartSlice'
 
 const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
 
@@ -18,7 +20,22 @@ const CourseDetailsCard = ({course, setConfirmationModal, handleBuyCourse}) => {
     } = course
 
     const handleAddToCart = () => {
-        
+        if(user && user?.accountType === ACCOUNT_TYPE.INSTRUCTOR){
+            toast.error("You are an instructor, you can't buy a course")
+            return
+        }
+        if(token) {
+            dispatch(addToCart(course))
+            return
+        }
+        setConfirmationModal({
+            text1: "You are not logged in",
+            text2: "Please login to add to cart",
+            btn1Text: "login",
+            btn2Text: "cancel",
+            btn1Handler: () => navigate("/login"),
+            btn2Handler: () => setConfirmationModal(null)
+        })
     }
 
     const handleShare = () => {
