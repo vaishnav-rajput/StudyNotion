@@ -24,6 +24,7 @@ import Catalog from "./pages/Catalog"
 import CourseDetails from "./pages/CourseDetails";
 import Cart from "./components/core/Dashboard/Cart";
 import ViewCourse from "./pages/ViewCourse";
+import VideoDetails from "./components/core/ViewCourse/VideoDetails";
 
 function App() {
   const {user} = useSelector((state) => state.profile)

@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useLoaderData, useLocation, useNavigate } from 'react-router-dom'
+import { useLoaderData, useLocation, useNavigate, useParams } from 'react-router-dom'
 import IconBtn from '../../common/IconBtn'
 
 const VideoDetailsSidebar = ({setReviewModal}) => {
@@ -91,7 +91,25 @@ const VideoDetailsSidebar = ({setReviewModal}) => {
                                             <div>
                                                 {
                                                     section.subSection.map((topic, index) => (
-                                                        <div></div>
+                                                        <div
+                                                        key={index}
+                                                        className={`flex gap-5 p-5 ${videoBarActive === topic._id 
+                                                            ? "bg-yellow-200 text-richblack-900" : "text-white bg-richblack-900"}`}
+                                                        onClick={() => {
+                                                            navigate(`/view-course/${courseEntireData?._id}/section/${section?._id}
+                                                            /sub-section/${topic?._id}`)
+                                                            setVideoBarActive(topic?._id)
+                                                        }}
+                                                        >
+                                                            <input 
+                                                                type='checkbox'
+                                                                checked={completedLectures.includes(topic?._id)}
+                                                                onChange={() => {}}    
+                                                            />
+                                                            <span>
+                                                                {topic.title}
+                                                            </span>
+                                                        </div>
                                                     ))
                                                 }
                                             </div>
