@@ -2,13 +2,19 @@ import { current } from '@reduxjs/toolkit'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { markLectureAsComplete } from '../../../services/operations/courseDetailsAPI'
+import { updateCompletedLectures } from '../../../slices/viewCourseSlice'
+import { Player } from 'video-react'
+import '~video-react/dist/video-react.css';
+import {AiFillPlayCircle} from "react-icons/ai"
+import IconBtn from '../../common/IconBtn'
 
 const VideoDetails = () => {
 
   const {courseId, sectionId, subSectionId} = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const player = useRef()
+  const playerRef = useRef()
   const {token} = useSelector((state) => state.auth)
   const {courseSectionData, courseEntireData, completedLectures} = useSelector((state) => state.viewCourse)
   const [videoData, setVideoData]  = useState([])
@@ -110,15 +116,90 @@ const VideoDetails = () => {
     }
   }
 
-  const handleLectureCompletion = () => {
+  const handleLectureCompletion = async() => {
     //dummy code
+    setLoading(true)
+
+    const res = await markLectureAsComplete({courseId:courseId, subSectionId: subSectionId}, token)
+
+    //update state
+    if(res){
+      dispatch(updateCompletedLectures(subSectionId))
+    }
+
+    setLoading(false)
+
   }
-
-
 
   return (
     <div>
+      {
+        !videoData ? (
+          <div>No data found</div>
+        ) : (
+          <Player
+          ref = {playerRef}
+          aspectRatio = "16:9"
+          playsInline
+          onEnded={() => setVideoEnded(true)}
+          src={videoData?.videoUrl}
+          >
+            <AiFillPlayCircle />
+            {
+              videoEnded && (
+                <div>
+                  {
+                    !completedLectures.includes(subSectionId) && (
+                      <IconBtn disabled={loading}
+                        onclick={() => handleLectureCompletion()}
+                        text={!loading ? "Mark as Completed" : "Loading"}
 
+                      />
+
+                    )
+                  }
+                  <IconBtn 
+                    disabled={loading}
+                    onclick={() => {if(playerRef?.current){
+                      playerRef?.current?.seek(0)
+                      //ToDo: more usages of useRef()
+
+                      setVideoEnded(false)
+                    }}}
+                    text="Rewatch"
+                    customClasses="text-xl"
+                  />
+
+                  <div>
+                    {isFirstVideo() && (
+                      <button
+                        disabled={loading}
+                        onClick={goToPrevVideo}
+                        className='blackButton'
+                      >
+                        Prev
+                      </button>
+                    )}
+                    {
+                      !isLastVideo() && (
+                        <button
+                        disabled={loading}
+                        onClick={goToNextVideo}
+                        className='blackButton'
+                        >
+                          Next
+                        </button>
+                      )
+                    }
+                  </div>
+                </div>
+              )
+            }
+          </Player>
+        )
+      }
+      <h1>{videoData?.title}</h1>
+      <p>{videoData?.description}</p>
     </div>
   )
 }
