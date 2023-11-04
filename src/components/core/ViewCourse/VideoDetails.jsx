@@ -5,9 +5,9 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { markLectureAsComplete } from '../../../services/operations/courseDetailsAPI'
 import { updateCompletedLectures } from '../../../slices/viewCourseSlice'
 import { Player } from 'video-react'
-import '~video-react/dist/video-react.css';
 import {AiFillPlayCircle} from "react-icons/ai"
 import IconBtn from '../../common/IconBtn'
+import 'video-react/dist/video-react.css';
 
 const VideoDetails = () => {
 

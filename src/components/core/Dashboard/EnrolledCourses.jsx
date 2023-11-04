@@ -17,6 +17,7 @@ const EnrolledCourses = () => {
         const response = await getUserEnrolledCourses(token)
         // Heree the error was that i was passing the token as a parameter but in object format i.e. {token}  
         setEnrolledCourses(response)
+        console.log("GET ENROLLED COURSES RES", response)
       } catch (error) {
         console.log("Unable  to fetch enrolled courses ")
       }  
