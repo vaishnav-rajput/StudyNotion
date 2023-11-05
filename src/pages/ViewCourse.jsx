@@ -13,20 +13,32 @@ const ViewCourse = () => {
     const {courseId} = useParams()
     const {token} = useSelector((state) => state.auth)
     const dispatch = useDispatch()
+    const {
+      courseSectionData,
+      courseEntireData,
+      totalNoOfLectures,
+      completedLectures
+  } = useSelector((state) => state.viewCourse)
 
     useEffect(() => {
       const setCourseSpecificDetails = async() => {
         const courseData = await getFullDetailsOfCourse(courseId, token)
+        
         dispatch(setCourseSectionData(courseData?.courseDetails.courseContent))
         dispatch(setEntireCourseData(courseData.courseDetails))
         dispatch(setCompletedLectures(courseData.completedVideos))
+
         let lectures = 0;
         courseData?.courseDetails?.courseContent?.forEach((sec) => {
           lectures += sec.subSection.length 
         })
         dispatch(setTotalNoOfLectures(lectures))
       }
-      setCourseSectionData()
+      setCourseSpecificDetails()
+      console.log("COURSE SECTION DATA ON FIRST RENDER", courseSectionData)
+        console.log("COURSE Entire DATA ON FIRST RENDER", courseEntireData)
+        console.log("Completed lectures DATA ON FIRST RENDER", completedLectures)
+        console.log("total no of lectures", totalNoOfLectures)
     }, [])
   return (
     <div className='relative flex min-h-[calc(100vh - 3.5rem)]'>

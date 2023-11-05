@@ -171,7 +171,7 @@ const VideoDetails = () => {
                   />
 
                   <div>
-                    {isFirstVideo() && (
+                    {!isFirstVideo() && (
                       <button
                         disabled={loading}
                         onClick={goToPrevVideo}

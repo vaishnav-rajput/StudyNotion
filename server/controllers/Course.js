@@ -18,13 +18,18 @@ exports.createCourse = async (req, res) => {
 			courseDescription,
 			whatYouWillLearn,
 			price,
-			tag,
+			tag: _tag,
 			category,
 			status,
-			instructions,
+			instructions: _instructions,
 		} = req.body;
 		// Get thumbnail image from request files
 		const thumbnail = req.files.thumbnailImage;
+
+		// Convert the tag and instructions from stringified Array to Array
+		const tag = JSON.parse(_tag)
+		const instructions = JSON.parse(_instructions)
+	   
 
 		// Check if any of the required fields are missing
 		if (
@@ -195,7 +200,6 @@ exports.getCourseDetails = async (req, res) => {
 				let totalDurationInSeconds = 0
 				courseDetails.courseContent.forEach((content) => {
 				  content.subSection.forEach((subSection) => {
-					console.log("Reached here")
 					const timeDurationInSeconds = parseInt(subSection.timeDuration)
 					totalDurationInSeconds += timeDurationInSeconds
 				  })
@@ -290,6 +294,8 @@ exports.editCourse = async (req, res) => {
 	}
   }
 
+
+//Changes made to controllers found in lecture7 code  
   // Get Course List
 exports.getAllCourses = async (req, res) => {
 	try {
@@ -343,7 +349,7 @@ exports.getAllCourses = async (req, res) => {
 		  },
 		})
 		.exec()
-  
+		console.log("GET FULL COURSE DETAILS RESPONSE", courseDetails)
 	  let courseProgressCount = await CourseProgress.findOne({
 		courseID: courseId,
 		userId: userId,

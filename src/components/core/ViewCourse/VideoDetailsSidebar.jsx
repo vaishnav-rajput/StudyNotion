@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLoaderData, useLocation, useNavigate, useParams } from 'react-router-dom'
 import IconBtn from '../../common/IconBtn'
+import { setTotalNoOfLectures } from '../../../slices/viewCourseSlice'
 
 const VideoDetailsSidebar = ({setReviewModal}) => {
 
@@ -21,7 +22,11 @@ const VideoDetailsSidebar = ({setReviewModal}) => {
     const location = useLocation()
 
     useEffect(() => {
-        ;(() => {
+        // ;(() => {
+           
+        // })()
+
+        const setActiveFlags = () => {
             if(!courseSectionData.length)
             return;
             const currentSectionIndex = courseSectionData.findIndex((data) => data._id === sectionId) 
@@ -37,13 +42,14 @@ const VideoDetailsSidebar = ({setReviewModal}) => {
 
             //set current subsection here
             setVideoBarActive(activeSubSectionId)
-        })()
+        }
+        setActiveFlags()
     },[courseSectionData, courseEntireData, location.pathname])
 
   return (
     <div>
         <>
-            <div>
+            <div className='text-white'>
                 {/* for buttons and headings  */}
                 <div>
                 {/* for buttons  */}
@@ -71,7 +77,7 @@ const VideoDetailsSidebar = ({setReviewModal}) => {
                 {/* for sections and subsections  */}
                 <div>
                     {
-                        courseSectionData?.map((section, index) => {
+                        courseSectionData.map((section, index) => {
                            return (<div
                             onClick={() => setActiveStatus(section?._id)}
                             key={index}
