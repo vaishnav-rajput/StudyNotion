@@ -47,8 +47,9 @@ const ViewCourse = () => {
             <div className='mx-auto w-11/12 max-w-[1000px] py-10'>
                 <Outlet />
             </div>
-        </div>
         {reviewModal && <CourseReviewModal setReviewModal={setReviewModal} />}
+
+        </div>
          
     </div>
   )

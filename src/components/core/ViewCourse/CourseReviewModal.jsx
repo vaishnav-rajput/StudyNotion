@@ -38,7 +38,7 @@ const CourseReviewModal = ({setReviewModal}) => {
             <div>
                 <p>Add Review</p>
                 <button
-                    onClick={setReviewModal(false)}
+                    onClick={() => setReviewModal(false)}
                 >
                     X
                 </button>
