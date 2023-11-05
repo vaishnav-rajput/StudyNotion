@@ -10,6 +10,7 @@ import TimelineSection from '../components/core/HomePage/TimelineSection'
 import InstructorSection from '../components/core/HomePage/InstructorSection'
 import ExploreMore from '../components/core/HomePage/ExploreMore'
 import Footer from '../components/common/Footer'
+import ReviewSlider from '../components/common/ReviewSlider'
 
 const Home = () => {
   return (
@@ -180,6 +181,7 @@ const Home = () => {
         bg-richblack-900 text-white'> 
             <InstructorSection/>
             <h2 className='text-center text-4xl font-semibold mt-10'>Review from Other learners</h2>
+            <ReviewSlider />
         </div>
 
         {/* Footer*/}
