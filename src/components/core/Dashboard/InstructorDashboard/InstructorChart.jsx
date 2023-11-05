@@ -1,10 +1,9 @@
 import React from 'react'
 import { useState } from 'react'
-import {Chart, registrables} from "chart.js"
+import {Chart, registerables} from "chart.js"
 import {Pie} from "react-chartjs-2"
-import CoursesTable from '../InstructorCourses/CoursesTable'
 
-Chart.register(...registrables)
+Chart.register(...registerables)
 
 const InstructorChart = ({courses}) => {
 
@@ -33,15 +32,40 @@ const InstructorChart = ({courses}) => {
 
     //create data for chart displaying income info
     const chartDataForIncome = {
-        labels: courses.map((course) => course.courseName)
+        labels: courses.map((course) => course.courseName),
+        datasets: [
+            {
+                data: courses.map((course) => course.totalAmountGenerated ),
+                backgroundColor: getRandomColors(courses.length) 
+            },
+        ]
     }
 
     //create options 
+    const options = {
 
+    }
 
   return (
     <div>
+        <p>Visualize</p>
+        <div className='flex gap-x-5'>
+            <button
+                onClick={() => setCurrChart("students")}
+            >
+                Student
+            </button>
+            <button onClick={() => setCurrChart("income")}>
+                Income
+            </button>
+        </div>
 
+        <div>
+            <Pie 
+                data={currChart === "students" ? chartDataForStudents : chartDataForIncome}
+                options={options}
+            />
+        </div>
     </div>
   )
 }
